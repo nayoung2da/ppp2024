@@ -1,5 +1,5 @@
 print("Hello World")
-print("안녕 세상")
+print("안녕 세계")
 print("...^^")
 print("故事成語")
 print('Hello world')

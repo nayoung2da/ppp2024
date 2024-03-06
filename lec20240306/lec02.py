@@ -1,4 +1,4 @@
-name = "우나영"
+name = "나영이"
 department="스마트팜학과"
 university="전북대학교"
 
