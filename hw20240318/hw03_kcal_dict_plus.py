@@ -7,3 +7,5 @@ if fruits in calories:
     total_calories = calories[fruits] * g
     print("=" * 12, "결과", "=" * 12)
     print("{} {}g의 칼로리는 {}kcal입니다.".format(fruits, g, total_calories))
+else:
+    print("과일 {}에 대한 칼로리 정보가 없습니다. 죄송합니다.".format(fruits))
