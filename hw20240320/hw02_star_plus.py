@@ -20,21 +20,3 @@ for i in range(n):
     i = i + 1
     print(' ' * (n - i), end = '')
     print('*' * (2 * i - 1))
-
-
-#여기부터 에바띠 규칙 확인 해보자
-#역삼각형 별
-print("="*5, "역삼각형 별입니다", "="*5)
-for i in range(n):
-    i = i + 1
-    print('*' * (n - i), end = '')
-    print(' ' * (2 * i - 1))
-
-#마름모 별
-print("="*5, "마름모 별입니다", "="*5)
-for i in range(n):
-    i = i + 1
-    print(' ' * (n - i), end = '')
-    print('*' * (2 * i - 1))
-    print('*' * (2 * i - 1), end = '')
-    print(' ' * (n - i))

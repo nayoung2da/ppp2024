@@ -1,28 +1,16 @@
-#나영아 다 안 끝났다 다시 보렴..
-
 calories = {"한라봉":0.5, "딸기":0.34, "바나나":0.77, "감":0.51, "망고":0.61, "리치":0.61, "복숭아":0.49, "블루베리":0.48, "사과":0.58}
 
+n = int(input("몇 종류의 과일을 드셨나요?(숫자만 입력해주세요.) : "))
+
 eat_fruits = []
-eat_fruits.append("한라봉")
-eat_fruits.append("망고")
+for i in range(n):
+    fruit = input("먹은 과일의 이름을 입력하세요: ")
+    amount = float(input(f"{fruit}의 먹은 양을 입력하세요(그램 단위): "))
+    eat_fruits.append((fruit, amount))
 
 total_calories = 0
-for item in eat_fruits:
-    total_calories += eat_fruits[item]
+for fruit, amount in eat_fruits:
+    if fruit in calories:
+        total_calories += calories[fruit] * amount
 
-fruits = input("먹은 과일의 이름을 입력하세요. : ")
-g = int(input("{} 섭취량(g기준)을 입력하세요. : ".format(fruits)))
-
-if fruits in calories:
-    total_calories = calories[fruits] * g
-    print("=" * 12, "결과", "=" * 12)
-    print("{} {}g의 칼로리는 {}kcal입니다.".format(fruits, g, total_calories))
-else:
-    print("과일 {}에 대한 칼로리 정보가 없습니다. 죄송합니다.".format(fruits))
-
-total_cost = 0
-for item in cart:
-    total_cost += mart[item]
-
-print(f"담은 상품은 {cart}입니다.")
-print(f"총 구매금액은 {total_cost:,}원입니다.")
+print(f"총 칼로리는 {total_calories}kcal입니다.")
