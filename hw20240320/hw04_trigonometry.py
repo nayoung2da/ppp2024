@@ -1,6 +1,6 @@
 import math
 
-print("degree  sin(x)  cos(x). tan(x)")
+print("degree  sin(x)  cos(x)  tan(x)")
 print("=" * 40)
 
 degrees = [0, 30, 45, 60, 90]

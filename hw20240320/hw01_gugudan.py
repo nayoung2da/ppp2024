@@ -5,3 +5,6 @@ for i in range(9):
     i = i + 1
     gugudan = dan * i
     print(f"{dan} x {i} = {gugudan}")
+
+#for i in range(1, 9 + 1):
+#    print(f"{dan} * {i} = {dan * i:2d})
