@@ -1,59 +1,72 @@
 import os
-import requests
+import csv
 import numpy as np
 
-DB_FILE = "./cal_db.csv"
+DB_FILE = "./eat_calorie_db.csv"
 
-def total_calorie(food, eat_calorie_dic):
-    total_calorie = 0
-    for food, weight in food.items():
-        if food in eat_calorie_dic:
-            total_calorie += weight*eat_calorie_dic[food]/100
+def read_db():
+    if not os.path.exists(DB_FILE):
+        return {}
+    
+    calorie_db = {}
+    with open(DB_FILE, "r", encoding="utf-8") as f:
+        reader = csv.reader(f)
+        for row in reader:
+            fruit = row[0]
+            grams_list = list(map(int, row[1:]))
+            calorie_db[fruit] = grams_list
+    return calorie_db
+
+def write_db(calorie_db):
+    with open(DB_FILE, "w", encoding="utf-8") as fout:
+        writer = csv.writer(fout)
+        for fruit, grams_list in calorie_db.items():
+            writer.writerow([fruit] + grams_list)
+
+def total_calorie(fruits_eat, fruits_cal_dic):
+    total = 0
+    for fruit_name, grams in fruits_eat.items():
+        if fruit_name in fruits_cal_dic:
+            total += fruits_cal_dic[fruit_name] * grams / 100
         else:
-            print(f"{food}의 칼로리 정보가 없습니다.")
-    return total_calorie
+            print(f"{fruit_name}의 정보를 찾을 수 없습니다.")
+    return total
 
 def read_cal_db(filename):
     database = {}
-    with open(filename) as f:
-        lines = f.readlines()
-        
-        for line in lines[1:]:
-            tokens = line.split(",")
-            food_name = tokens[0]
-            food_cal = int(tokens[1])
-            database[food_name] = food_cal
+    with open(filename, encoding="utf-8-sig") as f:
+        reader = csv.reader(f)
+        next(reader)
+        for row in reader:
+            fruit_name = row[0]
+            fruit_cal = float(row[1])
+            database[fruit_name] = fruit_cal
     return database
 
-def read_db():
-    kcal_db = []
-    if not os.path.exists(DB_FILE):
-        return kcal_db
-    
-    with open(DB_FILE) as f:
-        kcal_db = [float(x) for x in f.readlines().split(",")]
-    return kcal_db
-
-def write_db(kcal_db):
-    with open(DB_FILE, "w") as fout:
-        for x in kcal_db:
-            #fout.write(f"{x}\n")
-            fout.write(",".join(map(str, kcal_db)))
-
-
 def main():
-    eat_calorie_dic = read_cal_db("hw20240610/calorie_db.csv")
-    kcal_total = read_db()
-    print(f"현재까지 먹은 오늘의 칼로리 : {kcal_total}")
-        food = float(input("추가할 음식 이름을 입력하세요. : "))
-        if food < 0:
-            break
-        kcal_total.append(food)
-    print(f"현재까지 먹은 오늘의 칼로리 : {kcal_total}")
-    print(f"권장칼로리 섭취량 {}kcal에서 더 섭취할 수 있는 칼로리는 {np.average(kcal_total):.2f}입니다.")
+    fruits_calorie_dic = read_cal_db("hw20240610/calorie_db.csv")
+    
+    fruits_eat = input("먹은 과일을 ,로 구분하여 모두 입력하세요: ").split(",")
+    fruits_eat = {fruit.strip(): int(input(f"{fruit.strip()}의 먹은 양을 입력하세요(단위: g): ")) for fruit in fruits_eat}
+    total = total_calorie(fruits_eat, fruits_calorie_dic)
+    print(f"이번에 섭취 칼로리 총량은 {total:.2f} kcal입니다.")
+    
+    calorie_total = read_db()
+    
+    for fruit, grams in fruits_eat.items():
+        if fruit in calorie_total:
+            calorie_total[fruit].append(grams)
+        else:
+            calorie_total[fruit] = [grams]
+    
+    print(f"현재까지 섭취한 과일 목록과 섭취량: {calorie_total}")
+    fruit_totals = {fruit: np.sum(grams_list) for fruit, grams_list in calorie_total.items()}
+    
+    print(f"현재까지 섭취한 과일의 총 섭취량: {fruit_totals}")
+    write_db(calorie_total)
 
-    write_db(kcal_total)
-
+    total_calories = sum(total_calorie({fruit: total_grams}, fruits_calorie_dic) for fruit, total_grams in fruit_totals.items())
+    print(f"현재까지의 총 섭취 칼로리: {total_calories:.2f} kcal")
 
 if __name__ == "__main__":
     main()

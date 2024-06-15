@@ -1,8 +1,8 @@
 import os
 import numpy as np
 
-#DB_FILE = "./grade_db.txt"
-DB_FILE = "./grade_db.csv"
+DB_FILE = "./grade_db.txt"
+#DB_FILE = "./grade_db.csv"
 
 def read_db():
     grade_db = []
@@ -10,8 +10,8 @@ def read_db():
         return grade_db
     
     with open(DB_FILE) as f:
-        #grade_db = [float(x) for x in f.readlines()]
-        grade_db = [float(x) for x in f.readlines().split(",")]
+        grade_db = [float(x) for x in f.readlines()]
+        #grade_db = [float(x) for x in f.readlines().split(",")]
     return grade_db
 
 def write_db(grade_db):
